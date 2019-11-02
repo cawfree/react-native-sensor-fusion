@@ -1,5 +1,5 @@
 # react-native-sensor-fusion
-Precise, robust absolute 3D positioning in React Native, using [sensor fusion]() to exploit the superior characterstics of the device Accelerometer, Gyroscope and Magnetometer, whilst mitigating against their negative qualities.
+Robust absolute 3D positioning in React Native, using [sensor fusion](https://en.wikipedia.org/wiki/Sensor_fusion) to exploit the superior characterstics of the device Accelerometer, Gyroscope and Magnetometer, whilst mitigating against their negative qualities.
 
 Physical data acquisition is implemented using [react-native-sensors](https://github.com/react-native-sensors/). The noise in sampled data is filtered from the input signals using the high quality [kalmanjs](https://github.com/wouterbulten/kalmanjs), and sensor fusion is calculated using [ahrs](https://github.com/psiphi75/ahrs).
 
