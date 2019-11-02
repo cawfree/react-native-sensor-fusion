@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "ahrs": "^1.2.2",
+    "kalmanjs": "^1.1.0",
+    "react": ">=16.0.0",
+    "react-native": ">=0.60.0",
+    "react-native-sensors": "^5.3.2"
+  },
+  "name": "react-native-sensor-fusion",
+  "version": "0.0.1",
+  "description": "Precise, robust absolute positioning in React Native.",
+  "main": "index.js",
+  "repository": "https://github.com/cawfree/react-native-sensor-fusion",
+  "author": "Alex Thomas (@cawfree) <hello@cawfree.com>",
+  "license": "MIT",
+  "private": false
+}
