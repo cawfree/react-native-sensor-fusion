@@ -5,7 +5,7 @@
     "react-native-sensors": "^5.3.2"
   },
   "name": "react-native-sensor-fusion",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Precise, robust absolute positioning in React Native.",
   "main": "index.js",
   "repository": "https://github.com/cawfree/react-native-sensor-fusion",
