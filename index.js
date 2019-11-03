@@ -4,7 +4,11 @@ import * as Sensors from 'react-native-sensors';
 import Ahrs from 'ahrs';
 import KalmanFilter from 'kalmanjs';
 
-const types = ['gyroscope', 'accelerometer', 'magnetometer']
+const types = [
+  'gyroscope',
+  'accelerometer',
+  'magnetometer',
+]
   .map(
     type => Sensors.SensorTypes[type],
   );
@@ -39,6 +43,9 @@ const SensorFusionProvider = ({ children, ...extraProps }) => {
   const [ value, setValue ] = useState(
     {
       ahrs,
+      gyro,
+      accl,
+      comp,
     },
   );
   useEffect(
@@ -46,7 +53,7 @@ const SensorFusionProvider = ({ children, ...extraProps }) => {
       const ahrs = new Ahrs(extraProps);
       const filters = createFilters();
       setAhrs(ahrs);
-      setValue({ ahrs });
+      setValue({ ahrs, gyro, accl, comp });
       setFilters(
         filters,
       );
@@ -71,9 +78,10 @@ const SensorFusionProvider = ({ children, ...extraProps }) => {
           (type, i) => Sensors[type]
             .subscribe(
               ({ x, y, z }) => {
-                get[i][0] = filters[i][0].filter(x);
-                get[i][1] = filters[i][1].filter(y);
-                get[i][2] = filters[i][2].filter(z);
+                [ x, y, z ]
+                  .map(
+                    (e, j) => get[i][j] = filters[i][j].filter(e),
+                  );
                 ahrs
                   .update(
                     ...get[0],
@@ -84,6 +92,9 @@ const SensorFusionProvider = ({ children, ...extraProps }) => {
                   setValue(
                     {
                       ahrs,
+                      gyro,
+                      accl,
+                      comp,
                     },
                   );
                 }
@@ -114,13 +125,25 @@ SensorFusionProvider.propTypes = {
 
 SensorFusionProvider.defaultProps = {
   sampleInterval: 60,
-  algorithm: 'Mahony',
+  algorithm: 'Madgwick',
   beta: 0.4,
   kp: 0.5,
   ki: 0,
-  doInitialization: false,
+  doInitialization: true,
 };
 
+export const toDegrees = a => (a + ((a < 0) ?  Math.PI * 2 : 0)) * (180 / Math.PI);
+
 export const useSensorFusion = () => useContext(SensorFusionContext);
+
+export const useCompass = () => {
+  const { comp: [ x, y ] } = useSensorFusion();
+  return toDegrees(
+    Math.atan2(
+      y,
+      x,
+    ),
+  );
+};
 
 export default SensorFusionProvider;

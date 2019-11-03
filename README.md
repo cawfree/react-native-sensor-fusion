@@ -22,16 +22,27 @@ yarn add react-native-sensor-fusion
 ```javascript
 import React from 'react';
 import { Text } from 'react-native';
-import SensorFusionProvider, { useSensorFusion } from 'react-native-sensor-fusion';
+import SensorFusionProvider, { useSensorFusion, useCompass, toDegrees } from 'react-native-sensor-fusion';
+
+const Indicator = () => {
+  const { ahrs } = useSensorFusion();  
+  const { x, y, z, w } = ahrs.toVector();
+  return (
+    <Text
+      children={toDegrees(z)}
+    />
+  );
 
 const Indicator = () => {
   const { ahrs } = useSensorFusion();
   const { heading, pitch, roll } = ahrs.getEulerAngles();
+  const compass = useCompass();
   return (
     <Text>
-      Heading: {heading / Math.PI * 180}°{'\n'}
-      Pitch: {pitch / Math.PI * 180}°{'\n'}
-      Roll: {roll / Math.PI * 180}°{'\n'}
+      Heading: {toDegrees(heading)}°{'\n'}
+      Pitch: {toDegrees(pitch)}°{'\n'}
+      Roll: {toDegrees(roll)}°{'\n'}
+      Compass: {toDegrees(compass)}°{'\n'}
     </Text>
   );
 };
