@@ -138,12 +138,7 @@ export const useSensorFusion = () => useContext(SensorFusionContext);
 
 export const useCompass = () => {
   const { comp: [ x, y ] } = useSensorFusion();
-  return toDegrees(
-    Math.atan2(
-      y,
-      x,
-    ),
-  );
+  return Math.atan2(y, x);
 };
 
 export default SensorFusionProvider;
